@@ -4,7 +4,7 @@ I’ve always had a passion for NBA stats — not just the surface-level numbers
 
 The process started with sourcing and cleaning historical NBA data, designing a relational schema to link players, teams, and regular season stats, and then building a FastAPI backend that could translate natural-language questions into SQL queries. On the frontend, I went for sleek, modern interface for ease of use. 
 
-It wasn’t without its challenges. Handling ambiguous inputs required refining query parsing. Mismatched player names and inconsistent team IDs in the dataset meant I had to write custom cleaning scripts. CORS issues popped up during local development, and at one point, my backend was returning incorrect averages because of how I was pulling and grouping data. Each hurdle pushed me to dig deeper — testing SQL queries directly, normalizing the dataset, and setting up clear API contracts between the backend and frontend.
+It wasn’t without its challenges. Handling ambiguous inputs required refining query parsing. Mismatched player names and inconsistent team IDs in the dataset meant I had to write custom cleaning scripts. CORS issues popped up during local development, and at one point, my backend was returning incorrect averages because of how I was pulling and grouping data. Each hurdle forced me to dig deeper by testing SQL queries directly, normalizing the dataset, and setting up clear API contacts between the backend and frontend.
 
 ---
 
