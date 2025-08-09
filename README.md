@@ -1,6 +1,6 @@
 # NBA Query Engine (StatMuse-Style) — Local Setup
 
-I’ve always had a passion for NBA stats — not just the surface-level numbers, but the deeper, analytical context behind them. I wanted to create a project that lets people explore those stats in a more interactive, conversational way, similar to StatMuse, but fully customizable and locally hosted. The idea was to make it easy for anyone to pull up insights on players, teams, or seasons without digging through spreadsheets or multiple sites.
+I’ve always had a passion for NBA analytics. Not just the surface-level numbers, but the deeper, analytical context behind them. I wanted to create a project that lets people explore those stats in a more interactive, conversational way, similar to StatMuse, but fully customizable and locally hosted. The idea was to make it easy for anyone to pull up insights on players, teams, or seasons without digging through spreadsheets or multiple sites.
 
 The process started with sourcing and cleaning historical NBA data, designing a relational schema to link players, teams, and regular season stats, and then building a FastAPI backend that could translate natural-language questions into SQL queries. On the frontend, I went for sleek, modern interface for ease of use. 
 
