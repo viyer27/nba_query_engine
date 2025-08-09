@@ -1,12 +1,12 @@
 # NBA Query Engine (StatMuse-Style) — Local Setup
 
-I’ve always had a passion for NBA stats — not just the surface-level numbers, but the deeper, analytical context behind them. I wanted to create a project that lets people explore those stats in a more **interactive, conversational way**, similar to StatMuse, but fully customizable and locally hosted. The idea was to make it easy for anyone to pull up insights on players, teams, or seasons without digging through spreadsheets or multiple sites.
+I’ve always had a passion for NBA stats — not just the surface-level numbers, but the deeper, analytical context behind them. I wanted to create a project that lets people explore those stats in a more interactive, conversational way, similar to StatMuse, but fully customizable and locally hosted. The idea was to make it easy for anyone to pull up insights on players, teams, or seasons without digging through spreadsheets or multiple sites.
 
-The process started with sourcing and cleaning historical NBA data, designing a relational schema to link **players**, **teams**, and **season stats**, and then building a **FastAPI backend** that could translate natural-language questions into SQL queries. On the frontend, I went for a **ChatGPT-style interface** so it feels conversational rather than like a rigid stats search tool.
+The process started with sourcing and cleaning historical NBA data, designing a relational schema to link players, teams, and regular season stats, and then building a FastAPI backend that could translate natural-language questions into SQL queries. On the frontend, I went for sleek, modern interface for ease of use. 
 
 It wasn’t without its challenges. Handling ambiguous inputs required refining query parsing. Mismatched player names and inconsistent team IDs in the dataset meant I had to write custom cleaning scripts. CORS issues popped up during local development, and at one point, my backend was returning incorrect averages because of how I was pulling and grouping data. Each hurdle pushed me to dig deeper — testing SQL queries directly, normalizing the dataset, and setting up clear API contracts between the backend and frontend.
 
-In the end, the result is a **fully offline, local-first NBA query engine** that’s both fun to use and a strong foundation for adding more advanced analytics in the future.
+In the end, the result is a fully offline, local-first NBA query engine that’s both fun to use and a strong foundation for adding more advanced analytics in the future.
 
 ---
 
@@ -16,7 +16,7 @@ This project includes a small sample dataset for demonstration purposes. For ful
 ---
 
 ## Future Goals
-In the future, I want to expand this into a full **multi-sport analytics platform**, adding data for leagues like the NFL, MLB, and NHL. I’m also planning to bring in **interactive visuals** such as charts, shot maps, and heatmaps so users can get greater context and granularity behind the stats. Eventually, I’d like to add **predictive analytics** with features like player performance projections, playoff simulations, and win probability graphs — making it a tool that’s not just about looking back at numbers, but also about understanding what might happen next.
+In the future, I want to expand this into a full multi-sport analytics platform, adding data for leagues like the NFL, MLB, and NHL. I’m also planning to bring in interactive visuals** such as charts, shot maps, and heatmaps so users can get greater context and granularity behind the stats. Eventually, I’d like to add predictive analytics with features like player performance projections, playoff simulations, and win probability graphs — making it a tool that’s not just about looking back at numbers, but also about understanding what might happen next.
 
 ---
 
