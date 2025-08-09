@@ -97,6 +97,8 @@ Three main tables:
 
 `init.sql` sets up schema, `seed.sql` adds a few rows so you get instant results.
 
+![Database Schema](ddl)
+
 ---
 
 ## API Example
