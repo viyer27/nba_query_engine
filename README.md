@@ -10,6 +10,11 @@ In the end, the result is a **fully offline, local-first NBA query engine** that
 
 ---
 
+## Data Sources
+This project includes a small sample dataset for demonstration purposes. For full NBA historical data, you can import from open sources like Basketball Reference or contact me for access to my full database.
+
+---
+
 ## Future Goals
 In the future, I want to expand this into a full **multi-sport analytics platform**, adding data for leagues like the NFL, MLB, and NHL. I’m also planning to bring in **interactive visuals** such as charts, shot maps, and heatmaps so users can get greater context and granularity behind the stats. Eventually, I’d like to add **predictive analytics** with features like player performance projections, playoff simulations, and win probability graphs — making it a tool that’s not just about looking back at numbers, but also about understanding what might happen next.
 
