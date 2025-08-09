@@ -1,258 +1,103 @@
-NBA Query Engine (StatMuse-style) — Local Setup
-A FastAPI + React project that lets you ask NBA questions and returns answers from a local PostgreSQL database. This repo is designed so anyone can clone it and run locally in minutes—either with Docker or natively.
+NBA Query Engine (StatMuse-Style) — Local Setup
+I’ve always had a passion for NBA stats, not just the surface-level numbers, but the deeper, analytical context behind them. I wanted to create a project that lets people explore those stats in a more interactive, conversational way, similar to StatMuse, but fully customizable and locally hosted. The idea was to make it easy for anyone to pull up insights on players, teams, or seasons without digging through spreadsheets or multiple sites.
+
+The process started with sourcing and cleaning historical NBA data, designing a relational schema to link players, teams, and season stats, and then building a FastAPI backend that could translate natural-language questions into SQL queries. On the frontend, I went for a ChatGPT-style interface so it feels conversational rather than like a rigid stats search tool.
+
+It wasn’t without it's challenges. Handling ambiguous inputs required refining query parsing. Mismatched player names and inconsistent team IDs in the dataset meant I had to write custom cleaning scripts. CORS issues popped up during local dev, and at one point, my backend was returning incorrect averages because of how I was pulling and grouping data. Each hurdle pushed me to dig deeper, which involved testing SQL queries directly, normalizing the dataset, and setting up clear API contacts between the backend and frontend.
+
+In the end, the result is a fully offline, local-first NBA query engine that’s both fun to use and a strong foundation for adding more advanced analytics in the future.
+
+Future Goals
+In the future, I want to expand this into a full multi-sport analytics platform, adding data for leagues like the NFL, MLB, and the NHL. I’m also planning to bring in interactive visuals like charts, shot maps, and heatmaps so users can have greater context and granularity behind the stats. Eventually, I’d like to add predictive analytics as well, with features like player performance projections, playoff simulations, and win probability graphs, making it a tool that’s not just about looking back at numbers, but also about understanding what might happen next.
 
 Features
-⚡ FastAPI backend with /query endpoint
+FastAPI backend with /query
 
-🖥️ React (Vite) frontend with a simple ChatGPT-style UI
+React + Vite frontend (ChatGPT-style)
 
-🐘 PostgreSQL with ready-to-run schema + sample seed data
+PostgreSQL schema + sample data included
 
-🔁 One-command startup via Docker Compose
+Runs in minutes with Docker Compose or natively
 
-🧪 Works without any API keys (LLM optional)
+No API keys required (LLM optional)
 
 Repo Layout
-php
-Copy
-Edit
-statmuse-clone/
-├─ backend/
-│  ├─ app/
-│  │  ├─ main.py               # FastAPI app (expects /query route)
-│  │  └─ ...                   # routers, models, services, etc.
-│  ├─ requirements.txt
-│  ├─ Dockerfile
-│  └─ .env.example
-├─ frontend/
-│  ├─ package.json
-│  ├─ src/
-│  ├─ Dockerfile
-│  └─ .env.example
-├─ db/
-│  ├─ init.sql                 # schema (tables, indexes, FKs)
-│  └─ seed.sql                 # tiny sample dataset (optional but recommended)
-├─ docker-compose.yml
-├─ .env.example                # optional top-level defaults
-├─ Makefile                    # handy shortcuts (optional)
-├─ README.md
-└─ LICENSE
-If your tree differs, update paths/commands in this README accordingly.
-
-Prerequisites
-Choose one:
-
-Docker Desktop 4.x (recommended), or
-
-Native: Python 3.11+, Node 18+, PostgreSQL 16+
-
-Quick Start — Docker (Recommended)
 bash
 Copy
 Edit
-git clone <your-repo-url> statmuse-clone
+backend/   # FastAPI app
+frontend/  # React app
+db/        # init.sql (schema) + seed.sql (sample data)
+docker-compose.yml
+.env.example files
+
+Quick Start (Docker)
+bash
+Copy
+Edit
+git clone <repo-url> statmuse-clone
 cd statmuse-clone
 
-# Copy sample envs
 cp .env.example .env
 cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 
-# Bring everything up
 docker compose up --build
-Frontend: http://localhost:5173
+Frontend → http://localhost:5173
 
-Backend (Swagger): http://localhost:8000/docs
+Backend (Swagger) → http://localhost:8000/docs
 
-Postgres: localhost:5432 (see envs for user/pass/db)
-
-On first run, Postgres will execute db/init.sql (schema) and db/seed.sql (sample rows). Edit those files to match your schema/data.
-
-Useful Docker Commands
-bash
-Copy
-Edit
-# Stop and remove containers (keep DB volume)
-docker compose down
-
-# Nuke containers + volumes (fresh DB next time)
-docker compose down -v
-
-# Rebuild images without cache
-docker compose build --no-cache
-Quick Start — Without Docker
-1) Database
-Create a PostgreSQL database and apply schema + seeds:
+Quick Start (No Docker)
+DB
 
 bash
 Copy
 Edit
 createdb statmuse
 psql -d statmuse -f db/init.sql
-psql -d statmuse -f db/seed.sql   # optional
-2) Backend (FastAPI)
+psql -d statmuse -f db/seed.sql
+Backend
+
 bash
 Copy
 Edit
 cd backend
-python -m venv .venv
-# macOS/Linux:
-source .venv/bin/activate
-# Windows (PowerShell):
-# .venv\Scripts\Activate.ps1
-
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-# make sure DATABASE_URL points to your local Postgres
 uvicorn app.main:app --reload --port 8000
-Backend will be at http://localhost:8000 (docs at /docs).
+Frontend
 
-3) Frontend (Vite React)
 bash
 Copy
 Edit
 cd frontend
 npm ci
 cp .env.example .env
-# ensure VITE_API_BASE_URL=http://localhost:8000
 npm run dev
-Frontend will be at http://localhost:5173.
 
-Environment Variables
-Top-level .env.example (optional defaults used by compose):
+Env Vars
+DATABASE_URL → PostgreSQL connection string
 
-ini
-Copy
-Edit
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=statmuse
+CORS_ORIGINS → frontend URLs
 
-# Compose default for backend
-DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/statmuse
+VITE_API_BASE_URL → backend URL
 
-# CORS for local dev (comma-separated)
-CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+Database
+Three main tables:
 
-# Frontend -> Backend base URL
-VITE_API_BASE_URL=http://localhost:8000
-REACT_APP_API_BASE_URL=http://localhost:8000
-backend/.env.example:
+teams — team info
 
-bash
-Copy
-Edit
-# For Docker: service name "db" resolves in the network
-DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/statmuse
+nba_players — player info
 
-# For native (uncomment and adjust):
-# DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/statmuse
+rs_player_stats — season stats
 
-CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+init.sql sets up schema, seed.sql adds a few rows so you get instant results.
 
-# Optional if you use an LLM step
-OPENAI_API_KEY=
-frontend/.env.example (Vite):
-
-ini
-Copy
-Edit
-VITE_API_BASE_URL=http://localhost:8000
-Never commit real secrets—only commit the *.env.example files.
-
-API Contract (Minimal)
-The backend is expected to expose:
-
-POST /query
-Body:
-
-json
-Copy
-Edit
-{ "question": "How many points did Bradley Beal average in 2019?" }
-Response (example):
-
-json
-Copy
-Edit
-{
-  "answer": "Bradley Beal averaged 25.6 PPG in 2019-20.",
-  "sources": []
-}
-GET /health (optional) — returns 200 OK for health checks.
-
-Adjust this section if your actual routes/shape differ.
-
-Database Schema (Example)
-Your db/init.sql should create at least:
-
-teams(team_id PK, full_name, nickname, city, state, year_founded)
-
-nba_players(player_id PK, name, year_start, year_end, position, height, weight, birth_date, hall_of_fame, draft_overall, draft_info)
-
-rs_player_stats(id PK, player_id FK→nba_players, team_id FK→teams, season, age, games_played, ... pts, ast, trb, fg_pct, three_p, three_pa, three_p_pct, ft, fta, ft_pct, league, position, ...)
-
-A tiny db/seed.sql is included so the app returns something immediately after startup.
-
-Seeding Your Own Data
-Replace db/seed.sql with a tiny subset of your real data (e.g., 2–3 players, 2 teams, ~2 stat rows).
-
-Keep it small so the repo stays lightweight.
-
-In the README, link to your full dataset or scripts for fetching it (if applicable).
-
-Development Tips
-Frontend base URL comes from VITE_API_BASE_URL.
-
-If the frontend can’t reach the backend:
-
-Make sure backend is on port 8000 and not blocked by firewall/VPN.
-
-Check CORS_ORIGINS in backend/.env (must include the frontend origin).
-
-If DB connection fails:
-
-In Docker, wait for the db container to become healthy.
-
-Natively, confirm psql -h localhost -U <user> -d statmuse works.
-
-If schema changes, either:
-
-Edit db/init.sql and recreate the DB (or docker compose down -v), or
-
-Introduce migrations (Alembic) for a smoother workflow.
-
-Makefile (Optional)
-If you included the Makefile, you can use:
-
-bash
-Copy
-Edit
-make up        # docker compose up --build
-make down      # docker compose down -v
-make dev-api   # run backend locally
-make dev-ui    # run frontend locally
-make fmt       # format backend (black)
-Example cURL
+API Example
 bash
 Copy
 Edit
 curl -X POST http://localhost:8000/query \
   -H "Content-Type: application/json" \
   -d '{"question":"How many points did LeBron average in 2023?"}'
-FAQ
-Do I need an OpenAI key?
-No. The project can run purely on your DB. If you add LLM-powered features, set OPENAI_API_KEY in backend/.env.
-
-Can I use a different port?
-Yes—change ports in docker-compose.yml and envs accordingly.
-
-Will this deploy to the internet?
-No—this README is for local use. You can add a deploy guide later (Fly.io, Render, etc.).
-
-Contributing
-PRs welcome! Please open an issue first for major changes.
-
-License
-MIT — see LICENSE.
-
