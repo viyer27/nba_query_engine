@@ -6,8 +6,6 @@ The process started with sourcing and cleaning historical NBA data, designing a 
 
 It wasn’t without its challenges. Handling ambiguous inputs required refining query parsing. Mismatched player names and inconsistent team IDs in the dataset meant I had to write custom cleaning scripts. CORS issues popped up during local development, and at one point, my backend was returning incorrect averages because of how I was pulling and grouping data. Each hurdle pushed me to dig deeper — testing SQL queries directly, normalizing the dataset, and setting up clear API contracts between the backend and frontend.
 
-In the end, the result is a fully offline, local-first NBA query engine that’s both fun to use and a strong foundation for adding more advanced analytics in the future.
-
 ---
 
 ## Data Sources
