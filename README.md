@@ -42,7 +42,7 @@ docker-compose.yml
 
 ## Quick Start (Docker)
 ```bash
-git clone "<repo-url>" statmuse-clone
+git clone "https://github.com/viyer27/nba_query_engine" statmuse-clone
 cd statmuse-clone
 
 cp ".env.example" ".env"
