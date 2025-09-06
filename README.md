@@ -15,6 +15,21 @@ This project includes a small sample dataset for demonstration purposes. For ful
 
 ---
 
+## Automated Data Updates (Airflow)
+
+To keep the database current, I added an **Apache Airflow DAG** that scrapes Basketball Reference once a week and inserts new rows into the `rs_player_stats` table.
+
+- **Schedule**: Runs every Monday at 07:00  
+- **Source**: `etl/player_scrape.py` (per-game scraper built with `pandas.read_html`)  
+- **DAG**: `dags/rs_player_stats_weekly.py`  
+- **Target**: Postgres table `rs_player_stats` (unique on `player_id`, `Season`, `Team`)  
+- **Logic**: Compares scraped rows against what’s already in the DB, and only inserts new `(player_id, Season, Team)` combinations.  
+
+This ensures that the project’s regular season stats stay fresh without having to re-import historical data.
+
+---
+
+
 ## Future Goals
 In the future, I want to expand this into a full multi-sport analytics platform, adding data for leagues like the NFL, MLB, and NHL. I’m also planning to bring in interactive visuals** such as charts, shot maps, and heatmaps so users can get greater context and granularity behind the stats. Eventually, I’d like to add predictive analytics with features like player performance projections, playoff simulations, and win probability graphs — making it a tool that’s not just about looking back at numbers, but also about understanding what might happen next.
 
