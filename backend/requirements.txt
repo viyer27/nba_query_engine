@@ -11,3 +11,5 @@ pydantic==2.6.4
 tenacity==8.2.3
 langchain-openai
 pg8000
+apache-airflow==2.9.3
+apache-airflow-providers-postgres==5.10.0
